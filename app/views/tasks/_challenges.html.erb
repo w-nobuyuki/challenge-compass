@@ -1,0 +1,34 @@
+<div class="space-y-6">
+  <% if task.challenges.present? %>
+    <%= hidden_field_tag 'task[content]', task.content %>
+    <% task.challenges.each_with_index do |challenge, i| %>
+      <%= hidden_field_tag "task[challenges_attributes][#{i}][title]", challenge.title %>
+      <%= hidden_field_tag "task[challenges_attributes][#{i}][level]", challenge.level %>
+      <%= hidden_field_tag "task[challenges_attributes][#{i}][content]", challenge.content %>
+      <div class="p-4 border border-gray-400 rounded shadow-sm bg-white">
+        <!-- チャレンジタイトル -->
+        <h3 class="text-xl font-semibold mb-2"><%= challenge.title %></h3>
+
+        <!-- チャレンジ難易度 -->
+        <div class="mb-2">
+          <span class="text-sm font-medium text-gray-600">難易度：</span>
+          <% case challenge.level_text %>
+          <% when "低" %>
+            <span class="text-green-600 font-bold"><%= challenge.level_text %></span>
+          <% when "中" %>
+            <span class="text-yellow-600 font-bold"><%= challenge.level_text %></span>
+          <% when "高" %>
+            <span class="text-red-600 font-bold"><%= challenge.level_text %></span>
+          <% else %>
+            <span class="text-gray-600"><%= challenge.level_text %></span>
+          <% end %>
+        </div>
+
+        <!-- チャレンジ内容 -->
+        <p class="text-gray-800"><%= challenge.content %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-600">まだチャレンジが生成されていません。</p>
+  <% end %>
+</div>

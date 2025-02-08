@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   resource :user_profile, only: [ :new, :create ]
   resources :tasks, only: [ :new, :create, :index, :show ] do
+    post "generate_challenges", on: :collection
     resources :feedbacks, only: [ :new, :create ], module: :tasks
   end
 end

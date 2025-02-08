@@ -1,12 +1,39 @@
-<h1>今日のタスク入力</h1>
+<div data-controller="challenge-generator" class="max-w-2xl mx-auto p-4">
+  <!-- 本日の仕事内容の入力 -->
+  <h1 class="text-2xl font-bold mb-4">本日の仕事内容を教えてください</h1>
+  <%= form_with model: @task, url: generate_challenges_tasks_path, local: true, id: "task-form" do |f| %>
+    <div class="mb-4">
+      <%= f.text_area :content, class: "w-full p-2 border border-gray-300 rounded", placeholder: "今日の仕事内容を入力してください", rows: 5 %>
+    </div>
+    <div>
+      <button type="button" data-action="click->challenge-generator#generate" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        チャレンジ生成
+      </button>
+    </div>
+  <% end %>
 
-<%= form_with model: @task, local: true do |f| %>  
-  <div>
-    <%= f.label :content, "タスク内容" %><br>
-    <%= f.text_area :content %>
+  <!-- ローディングオーバーレイ -->
+  <div data-challenge-generator-target="overlay" class="fixed inset-0 bg-gray-800 opacity-75 flex items-center justify-center hidden z-50">
+    <div class="flex flex-col items-center space-y-4">
+      <!-- ローディングアイコン（スピナー） -->
+      <svg class="animate-spin h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+      </svg>
+      <!-- メッセージ -->
+      <div class="text-white text-xl">チャレンジ生成中...</div>
+    </div>
   </div>
-  
-  <div>
-    <%= f.submit "タスクを作成" %>
-  </div>
-<% end %>
+
+  <%= form_tag tasks_path do |f| %>
+    <!-- 生成されたチャレンジリストを表示する領域 -->
+    <div data-challenge-generator-target="challengeList" class="mt-8">
+      <!-- ここに tasks_controller#generate_challenges のレスポンス（チャレンジ一覧の HTML）が挿入される -->
+    </div>
+
+    <!-- チャレンジ確定ボタン（初期状態は非表示） -->
+    <div data-challenge-generator-target="confirmButton" class="mt-4 hidden">
+      <%= button_to "チャレンジ確定", tasks_path, method: :post, class: "bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>

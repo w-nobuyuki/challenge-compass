@@ -11,7 +11,7 @@ class UserProfilesController < ApplicationController
   def create
     @user_profile = current_user.build_user_profile(user_profile_params)
     if @user_profile.save
-      redirect_to root_path, notice: "プロフィールを登録しました"
+      redirect_to root_path, notice: "プロフィールの入力が完了しました！"
     else
       render :new, status: :unprocessable_entity
     end

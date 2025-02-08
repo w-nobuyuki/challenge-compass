@@ -1,0 +1,7 @@
+ja:
+  enumerize:
+    challenge:
+      level:
+        low: "低"
+        medium: "中"
+        high: "高"

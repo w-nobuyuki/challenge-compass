@@ -7,20 +7,18 @@ class TasksController < ApplicationController
   end
 
   def new
-    # 本日の日付を自動設定
-    @task = current_user.tasks.new(date: Date.today)
+    if current_user.tasks.today.exists?
+      redirect_to new_task_feedback_path(current_user.tasks.today.last)
+      return
+    end
+    @task = current_user.tasks.build
   end
 
   def create
-    @task = current_user.tasks.new(task_params)
+    @task = current_user.tasks.build(task_params)
     @task.date ||= Date.today
-
     if @task.save
-      challenges = ChallengeGenerateAi.call(prompt: current_user.prompt)
-      challenges.each do |challenge_num, body|
-        @task.challenges.create!(level: body["level"], title: body["title"], content: body["content"])
-      end
-      redirect_to tasks_path, notice: "タスクが作成されました。"
+      redirect_to tasks_path, notice: "本日のチャレンジを確定しました！"
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,9 +28,18 @@ class TasksController < ApplicationController
     @task = current_user.tasks.find(params[:id])
   end
 
+  def generate_challenges
+    @task = current_user.tasks.build(task_params)
+    challenges = ChallengeGenerateAi.call(prompt: current_user.prompt)
+    challenges.each do |challenge_num, body|
+      @task.challenges.build(level: body["level"], title: body["title"], content: body["content"])
+    end
+    render partial: "challenges", locals: { task: @task }
+  end
+
   private
 
   def task_params
-    params.require(:task).permit(:content, :date)
+    params.require(:task).permit(:content, challenges_attributes: %i[level title content])
   end
 end
