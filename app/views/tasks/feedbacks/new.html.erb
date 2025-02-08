@@ -1,0 +1,32 @@
+<h1>フィードバック入力</h1>
+
+<%= form_with(model: @feedback, url: task_feedbacks_path(@task), local: true) do |f| %>
+  <% @task.challenges.each do |challenge| %>
+    <div style="margin-bottom: 1em; border: 1px solid #ccc; padding: 1em;">
+      <h3><%= challenge.title %></h3>
+      <p><strong>難易度:</strong> <%= challenge.level %></p>
+      <p><strong>内容:</strong> <%= challenge.content %></p>
+
+      <div>
+        <%= label_tag "feedback_challenge_feedbacks_#{challenge.id}", "評価(1〜5)" %><br>
+        <%= select_tag "challenge_feedbacks[#{challenge.id}]",
+              options_for_select([
+                ['1 (very bad)', :very_bad],
+                ['2', :bad],
+                ['3', :average],
+                ['4', :good],
+                ['5 (very good)', :very_good]
+              ]) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :comment, "感想" %><br>
+    <%= f.text_area :comment, rows: 5 %>
+  </div>
+
+  <div>
+    <%= f.submit "フィードバックを送信" %>
+  </div>
+<% end %>

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  root "posts#index"
+  root "tasks#new"
 
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  resource :user_profile, only: [ :new, :create ]
+  resources :tasks, only: [ :new, :create, :index, :show ] do
+    resources :feedbacks, only: [ :new, :create ], module: :tasks
+  end
 end

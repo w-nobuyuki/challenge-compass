@@ -1,0 +1,49 @@
+<!-- app/views/user_profiles/new.html.erb -->
+<h1>プロフィールを入力してください</h1>
+
+<%= form_with model: @user_profile, url: user_profile_path do |f| %>
+  <% if @user_profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_profile.errors.count, "error") %>が発生しました:</h2>
+      <ul>
+        <% @user_profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :goal, "なりたい自分（目標）" %><br>
+    <%= f.text_field :goal %>
+  </div>
+
+  <div>
+    <%= f.label :description, "自己紹介・説明" %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :background, "背景" %><br>
+    <%= f.text_area :background %>
+  </div>
+
+  <div>
+    <%= f.label :current_job, "現在の職種・役割" %><br>
+    <%= f.text_field :current_job %>
+  </div>
+
+  <div>
+    <%= f.label :gap_between_goal, "現状と理想のギャップ" %><br>
+    <%= f.text_area :gap_between_goal %>
+  </div>
+
+  <div>
+    <%= f.label :period, "達成期間（目標達成までの期間）" %><br>
+    <%= f.text_field :period %>
+  </div>
+
+  <div>
+    <%= f.submit "登録する" %>
+  </div>
+<% end %>

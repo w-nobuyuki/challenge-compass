@@ -1,0 +1,32 @@
+<h1>タスク内容</h1>
+
+<p>
+  <strong>日付:</strong>
+  <%= @task.date.strftime("%Y-%m-%d") %>
+</p>
+
+<p>
+  <strong>タスク内容:</strong>
+  <%= @task.content %>
+</p>
+
+<div>
+  <strong>今日のチャレンジ</strong>
+  <table>
+    <tr>
+      <th>タイトル</th>
+      <th>難易度</th>
+      <th>内容</th>
+    </tr>
+    <% @task.challenges.each do |challenge| %>
+      <tr>
+        <td><%= challenge.title %></td>
+        <td><%= challenge.level %></td>
+        <td><%= challenge.content %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<%= link_to "フィードバック入力", new_task_feedback_path(@task) %>
+<%= link_to "戻る", tasks_path %>

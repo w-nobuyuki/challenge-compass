@@ -1,0 +1,13 @@
+<h1>タスク一覧</h1>
+
+<%= link_to '新規タスク入力', new_task_path %>
+
+<ul>
+  <% @tasks.each do |task| %>
+    <li>
+      <strong><%= task.date.strftime("%Y-%m-%d") %>:</strong>
+      <%= task.content %>
+      <%= link_to '詳細', task_path(task) %>
+    </li>
+  <% end %>
+</ul>

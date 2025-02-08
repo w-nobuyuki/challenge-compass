@@ -10,7 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_02_110956) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_08_034456) do
+  create_table "challenges", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.string "title"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "feedback"
+    t.string "level"
+    t.index ["task_id"], name: "index_challenges_on_task_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "task_id", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "ai_comment"
+    t.index ["task_id"], name: "index_feedbacks_on_task_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -19,10 +39,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_02_110956) do
 
   create_table "tasks", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "title", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date", null: false
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
@@ -51,6 +71,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_02_110956) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "challenges", "tasks"
+  add_foreign_key "feedbacks", "tasks"
   add_foreign_key "tasks", "users"
   add_foreign_key "user_profiles", "users"
 end
