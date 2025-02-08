@@ -1,49 +1,98 @@
-<!-- app/views/user_profiles/new.html.erb -->
-<h1>プロフィールを入力してください</h1>
+<div data-controller="profile-steps" class="max-w-xl mx-auto mt-10">
+  <%= form_with model: @user_profile, url: user_profile_path, method: :post, data: { controller: "profile-steps" } do |f| %>
+    <!-- プログレスバー -->
+    <div class="mb-6">
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <!-- progressTarget により、Stimulus側で幅を更新 -->
+        <div data-profile-steps-target="progress" class="bg-blue-500 h-2.5 rounded-full" style="width: 0%"></div>
+      </div>
+    </div>
 
-<%= form_with model: @user_profile, url: user_profile_path do |f| %>
-  <% if @user_profile.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user_profile.errors.count, "error") %>が発生しました:</h2>
-      <ul>
-        <% @user_profile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+    <!-- 入力ステップ群 -->
+    <div class="relative overflow-hidden">
+      <!-- ステップ0：サービス説明 -->
+      <div data-profile-steps-target="step" class="step block">
+        <h2 class="text-2xl font-bold mb-4">チャレンジコンパスへようこそ！</h2>
+        <p class="mb-6">
+          このサービスはあなたの目標や仕事内容からAIが毎日のチャレンジを生成し、日々の仕事にゲームのようなワクワク感と達成感を与えるためのサービスです。<br>
+          <br>
+          最初にあなたの今の仕事や目標について教えてください！
+        </p>
+        <div class="flex justify-end">
+          <button type="button" data-action="click->profile-steps#next" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            次へ
+          </button>
+        </div>
+      </div>
+
+      <!-- ステップ1：現在取り組んでいること -->
+      <div data-profile-steps-target="step" class="step hidden">
+        <h2 class="text-2xl font-bold mb-4">あなたが今仕事で取り組んでいることは何ですか？</h2>
+        <%= f.text_area :current_job, class: "w-full p-2 border border-gray-300 rounded", rows: 3, placeholder: "例: プロジェクト管理、マーケティング戦略の立案など、できるだけ詳しく入力してください" %>
+        <div class="flex justify-between mt-6">
+          <button type="button" data-action="click->profile-steps#prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">
+            戻る
+          </button>
+          <button type="button" data-action="click->profile-steps#next" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            次へ
+          </button>
+        </div>
+      </div>
+
+      <!-- ステップ2：目標を一言で -->
+      <div data-profile-steps-target="step" class="step hidden">
+        <h2 class="text-2xl font-bold mb-4">あなたの仕事における目標は何ですか？</h2>
+        <%= f.text_field :goal, class: "w-full p-2 border border-gray-300 rounded", placeholder: "例: プロジェクトのチームリーダーを担えるようになる" %>
+        <div class="flex justify-between mt-6">
+          <button type="button" data-action="click->profile-steps#prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">
+            戻る
+          </button>
+          <button type="button" data-action="click->profile-steps#next" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            次へ
+          </button>
+        </div>
+      </div>
+
+      <!-- ステップ3：目標の詳細 -->
+      <div data-profile-steps-target="step" class="step hidden">
+        <h2 class="text-2xl font-bold mb-4">その目標がどういったものか具体的に教えていただけますか？</h2>
+        <%= f.text_area :description, class: "w-full p-2 border border-gray-300 rounded", rows: 4, placeholder: "目標の詳細やその目標を達成した時自分がどうなっているかなど" %>
+        <div class="flex justify-between mt-6">
+          <button type="button" data-action="click->profile-steps#prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">
+            戻る
+          </button>
+          <button type="button" data-action="click->profile-steps#next" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            次へ
+          </button>
+        </div>
+      </div>
+
+      <!-- ステップ4：目標を目指す理由 -->
+      <div data-profile-steps-target="step" class="step hidden">
+        <h2 class="text-2xl font-bold mb-4">その目標を目指す理由を教えてください</h2>
+        <%= f.text_area :background, class: "w-full p-2 border border-gray-300 rounded", rows: 4, placeholder: "その目標を目指そうと思った背景" %>
+        <div class="flex justify-between mt-6">
+          <button type="button" data-action="click->profile-steps#prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">
+            戻る
+          </button>
+          <button type="button" data-action="click->profile-steps#next" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+            次へ
+          </button>
+        </div>
+      </div>
+
+      <!-- ステップ5：目標と現状のギャップ -->
+      <div data-profile-steps-target="step" class="step hidden">
+        <h2 class="text-2xl font-bold mb-4">目標と今のあなたでどういった点にギャップを感じていますか？</h2>
+        <%= f.text_area :gap_between_goal, class: "w-full p-2 border border-gray-300 rounded", rows: 4, placeholder: "現状と目標との違い、課題など..." %>
+        <div class="flex justify-between mt-6">
+          <button type="button" data-action="click->profile-steps#prev" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">
+            戻る
+          </button>
+          <!-- 最終ステップは送信ボタン -->
+          <%= f.submit "確定", class: "bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded" %>
+        </div>
+      </div>
     </div>
   <% end %>
-
-  <div>
-    <%= f.label :goal, "なりたい自分（目標）" %><br>
-    <%= f.text_field :goal %>
-  </div>
-
-  <div>
-    <%= f.label :description, "自己紹介・説明" %><br>
-    <%= f.text_area :description %>
-  </div>
-
-  <div>
-    <%= f.label :background, "背景" %><br>
-    <%= f.text_area :background %>
-  </div>
-
-  <div>
-    <%= f.label :current_job, "現在の職種・役割" %><br>
-    <%= f.text_field :current_job %>
-  </div>
-
-  <div>
-    <%= f.label :gap_between_goal, "現状と理想のギャップ" %><br>
-    <%= f.text_area :gap_between_goal %>
-  </div>
-
-  <div>
-    <%= f.label :period, "達成期間（目標達成までの期間）" %><br>
-    <%= f.text_field :period %>
-  </div>
-
-  <div>
-    <%= f.submit "登録する" %>
-  </div>
-<% end %>
+</div>
