@@ -7,7 +7,7 @@
   <!-- 本日の仕事内容表示 -->
   <div class="mb-6 p-4 border border-red-100 rounded bg-white">
     <h2 class="text-lg font-semibold mb-2">今日の仕事内容</h2>
-    <p><%= @task.content %></p>
+    <p><%= simple_format(@task.content) %></p>
   </div>
 
   <!-- 今日のチャレンジ一覧 -->
