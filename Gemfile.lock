@@ -119,6 +119,11 @@ GEM
       logger
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
+    ffi (1.17.1-aarch64-linux-gnu)
+    ffi (1.17.1-arm64-darwin)
+    ffi (1.17.1-x86_64-linux-gnu)
+    font-awesome-sass (6.7.2)
+      sassc (~> 2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-cloud-env (2.2.1)
@@ -298,6 +303,8 @@ GEM
       rubocop-rails
     ruby-progressbar (1.13.0)
     rubyzip (2.4.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     securerandom (0.3.1)
     selenium-webdriver (4.28.0)
       base64 (~> 0.2)
@@ -375,6 +382,7 @@ DEPENDENCIES
   dotenv-rails
   enumerize
   faraday
+  font-awesome-sass
   googleauth
   importmap-rails
   jbuilder

@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @layer utilities {
   .animate-slide-in {
     animation: slide-in 0.3s ease-out;
@@ -13,4 +15,8 @@
     transform: translateX(0);
     opacity: 1;
   }
+}
+
+body {
+  color: var(--color-gray-700);
 }

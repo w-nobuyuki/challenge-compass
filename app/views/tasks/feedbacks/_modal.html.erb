@@ -1,0 +1,21 @@
+<!-- Tailwindでモーダル背景と中央寄せを実現 -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800/75"
+     data-controller="modal"
+     data-action="keydown@window->modal#handleKeydown">
+  <!-- 実際のモーダル枠 -->
+  <div class="bg-white shadow-lg rounded p-4 w-1/2 max-w-md relative">
+    <p class="mb-4"
+        data-controller="typing"
+        data-typing-target="output"
+        data-typing-text-value="<%= message %>"
+        data-typing-speed-value="30">
+    </p>
+
+    <div class="mt-6 flex justify-end">
+      <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+              data-action="click->modal#close">
+        閉じる
+      </button>
+    </div>
+  </div>
+</div>

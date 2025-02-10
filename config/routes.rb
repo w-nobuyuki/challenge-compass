@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   resource :user_profile, only: [ :new, :create ]
   resources :tasks, only: [ :new, :create, :index, :show ] do
     post "generate_challenges", on: :collection
-    resources :feedbacks, only: [ :new, :create ], module: :tasks
+    resources :feedbacks, only: [ :new, :create, :show ], module: :tasks
   end
 end

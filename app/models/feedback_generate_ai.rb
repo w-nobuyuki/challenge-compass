@@ -5,15 +5,24 @@ class FeedbackGenerateAi
   MODEL_ID = "gemini-2.0-flash-exp"
   GENERATE_CONTENT_API = "streamGenerateContent"
 
-  def self.call(prompt:)
-    new.call(prompt:)
+  def self.call(prompt:, mentor:)
+    new.call(prompt:, mentor:)
   end
 
-  def call(prompt:)
+  def call(prompt:, mentor:)
     scope = "https://www.googleapis.com/auth/cloud-platform"
     credentials = Google::Auth.get_application_default(scope)
     access_token = credentials.fetch_access_token!["access_token"]
 
+    system_instruction = <<~SYSTEM_INSTRUCTION
+      あなたは#{mentor}です。#{mentor}に成り切ったつもりで、ユーザーのチャレンジの達成状況やコメントに対して、フィードバックを行なってください。
+      またユーザーに向けて、明日以降もチャレンジを継続できるようなアドバイスをお願いします。
+
+      ## ルール
+      - チャレンジの達成状況について、ユーザーは【good】や【bad】といった自己評価を行いますが、【good】や【bad】といった表現はそのまま使わず日本語に置き換えてください（墨カッコは不要です）
+      - また、правильныйのようなロシア語に見えてしまいそうな単語は全て使わないで回答を生成してください。
+      - メッセージはマークダウン記法は使わず、テキストのみで構成してください。
+    SYSTEM_INSTRUCTION
     payload = {
       contents: [
         {
@@ -28,7 +37,7 @@ class FeedbackGenerateAi
       systemInstruction: {
         parts: [
           {
-            text: "あなたは吉田松陰です。ユーザーのチャレンジの達成状況に対して、フィードバックを行なってください。またユーザーに向けて、明日以降もチャレンジを継続できるようなアドバイスをお願いします。吉田松陰に成り切ったつもりで回答してください。また、правильныйのようなロシア語に見えてしまいそうな単語は全て使わないで回答を生成してください"
+            text: system_instruction
           }
         ]
       },

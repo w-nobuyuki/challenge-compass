@@ -1,5 +1,5 @@
 class Feedback < ApplicationRecord
   belongs_to :task
 
-  attribute :challenge_feedbacks
+  attribute :mentor
 end

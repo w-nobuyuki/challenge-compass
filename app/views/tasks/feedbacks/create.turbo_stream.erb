@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "modal-container" do %>
+  <%= render partial: "modal", locals: { message: @feedback.ai_comment } %>
+<% end %>

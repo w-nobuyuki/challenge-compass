@@ -1,0 +1,24 @@
+<header class="bg-white shadow">
+  <nav 
+    class="container mx-auto flex justify-between items-center px-4 py-3" 
+    data-controller="nav" 
+  >
+    <div class="flex items-center">
+      <span class="text-xl font-bold text-red-300">
+        Challenge Compass
+      </span>
+    </div>
+
+    <!-- メニュー部分 (PCでは表示、モバイルでは最初は非表示) -->
+    <div 
+      id="navbar-menu" 
+      class="hidden w-full md:flex md:items-center md:w-auto"
+      data-nav-target="menu"
+    >
+      <div class="flex flex-col md:flex-row md:ml-auto md:space-x-6">
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, 
+              class: "block px-3 mt-1 md:mt-0 text-gray-700 hover:text-blue-500" %>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -14,13 +14,20 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css' %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <main>
+  <body class="bg-gray-100 min-h-screen flex flex-col bg-gray-100">
+    <% if user_signed_in? %>
+      <%= render "shared/navbar" %>
+    <% end %>
+    <main class="flex-1 flex flex-col items-center justify-center">
+      <%= render "shared/flash_messages" %>
       <%= yield %>
     </main>
+    <!-- Turbo Streamで置き換えるモーダル用コンテナ -->
+    <div id="modal-container"></div>
   </body>
 </html>

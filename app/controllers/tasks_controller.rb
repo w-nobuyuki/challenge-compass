@@ -18,7 +18,7 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     @task.date ||= Date.today
     if @task.save
-      redirect_to tasks_path, notice: "本日のチャレンジを確定しました！"
+      redirect_to root_path, notice: "本日のチャレンジを確定しました！"
     else
       render :new, status: :unprocessable_entity
     end

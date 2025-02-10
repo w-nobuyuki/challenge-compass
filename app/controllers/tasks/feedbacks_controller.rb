@@ -1,7 +1,16 @@
 class Tasks::FeedbacksController < ApplicationController
   before_action :set_task
   def new
+    if @task.feedback.present?
+      redirect_to task_feedback_path(@task, @task.feedback)
+      return
+    end
+
     @feedback = @task.build_feedback
+  end
+
+  def show
+    @feedback = @task.feedback
   end
 
   def create
@@ -13,9 +22,10 @@ class Tasks::FeedbacksController < ApplicationController
           challenge.update(feedback: feedback_value)
         end
       end
-      @feedback.update!(ai_comment: FeedbackGenerateAi.call(prompt: current_user.feedback_prompt))
-
-      redirect_to @task, notice: "フィードバックを保存しました"
+      @feedback.update!(ai_comment: FeedbackGenerateAi.call(prompt: current_user.feedback_prompt, mentor: @feedback.mentor))
+      respond_to do |format|
+        format.turbo_stream
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -28,6 +38,6 @@ class Tasks::FeedbacksController < ApplicationController
   end
 
   def feedback_params
-    params.require(:feedback).permit(:comment)
+    params.require(:feedback).permit(:comment, :mentor)
   end
 end
