@@ -1,5 +1,4 @@
 class ChallengeGenerateAi
-  PROJECT_ID = "zenn-ai-agent-hackathon-449013"
   LOCATION_ID = "us-central1"
   API_ENDPOINT = "us-central1-aiplatform.googleapis.com"
   MODEL_ID = "gemini-2.0-flash-exp"
@@ -46,7 +45,7 @@ class ChallengeGenerateAi
         { category: "HARM_CATEGORY_HARASSMENT", threshold: "OFF" }
       ]
     }
-    url = "https://#{API_ENDPOINT}/v1/projects/#{PROJECT_ID}/locations/#{LOCATION_ID}/publishers/google/models/#{MODEL_ID}:#{GENERATE_CONTENT_API}"
+    url = "https://#{API_ENDPOINT}/v1/projects/#{ENV["GCP_PROJECT_ID"]}/locations/#{LOCATION_ID}/publishers/google/models/#{MODEL_ID}:#{GENERATE_CONTENT_API}"
 
     # Faradayによる接続設定
     conn = Faraday.new(url:) do |f|
