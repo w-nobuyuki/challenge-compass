@@ -34,7 +34,7 @@ class Tasks::FeedbacksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:task_id])
+    @task = current_user.tasks.find(params[:task_id])
   end
 
   def feedback_params
