@@ -1,7 +1,7 @@
 class Tasks::FeedbacksController < ApplicationController
   before_action :set_task
   def new
-    if @task.feedback.present?
+    if @task.feedback.present? && @task.today?
       redirect_to task_feedback_path(@task, @task.feedback)
       return
     end
