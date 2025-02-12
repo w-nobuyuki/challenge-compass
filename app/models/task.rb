@@ -6,8 +6,4 @@ class Task < ApplicationRecord
   accepts_nested_attributes_for :challenges
 
   scope :today, -> { where(date: Date.today) }
-
-  def today?
-    date == Date.today
-  end
 end
