@@ -16,7 +16,7 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.build(task_params)
-    @task.date ||= Date.current
+    @task.date ||= Date.today
     if @task.save
       redirect_to root_path, notice: "本日のチャレンジを確定しました！"
     else
